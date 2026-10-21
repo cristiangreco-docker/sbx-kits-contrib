@@ -51,15 +51,16 @@ func TestClaudeOllamaSettingsAPIKeyHelper(t *testing.T) {
 		seed := findSettingsInstall(t, loadV3Commands(t, kit)).Command
 
 		for _, tc := range []struct {
+			name       string
 			mode       string
 			wantHelper string
 		}{
-			{mode: ""},
-			{mode: "none"},
-			{mode: "apikey", wantHelper: claudeAPIKeyHelper},
-			{mode: "oauth"},
+			{name: "unset"},
+			{name: "none", mode: "none"},
+			{name: "api key", mode: "apikey", wantHelper: claudeAPIKeyHelper},
+			{name: "subscription OAuth", mode: "oauth"},
 		} {
-			t.Run(kit+"/"+tc.mode, func(t *testing.T) {
+			t.Run(kit+"/"+tc.name, func(t *testing.T) {
 				home := t.TempDir()
 				runSettingsScriptIn(t, home, seed, credModeEnv(tc.mode))
 				requireAPIKeyHelper(t, home, tc.wantHelper)
@@ -79,6 +80,7 @@ func TestClaudeMemReconcilerAPIKeyHelper(t *testing.T) {
 	}
 	seed := findSettingsInstall(t, loadV3Commands(t, "claude")).Command
 	reconciler := findSettingsReconciler(t, loadV3Commands(t, "claude-mem"))
+	require.Contains(t, reconciler, "/tmp/claude-mem-reconcile.log")
 
 	for _, tc := range []struct {
 		name          string

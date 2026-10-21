@@ -222,10 +222,9 @@ capabilities:
         # only in API-key mode. With it, Claude Code treats a subscription as an
         # API-key session that loses its claude.ai connectors. Rewritten
         # unconditionally on every (re)create so a mode change is picked up,
-        # and deterministic from the mode, so
-        # idempotent. defaultMode must sit under "permissions": Claude Code
-        # reads only permissions.defaultMode and silently ignores the key
-        # elsewhere.
+        # and deterministic from the mode, so idempotent. defaultMode must sit
+        # under "permissions": Claude Code reads only permissions.defaultMode
+        # and silently ignores the key elsewhere.
         - command: |
             set -e
             mkdir -p /home/agent/.claude
