@@ -275,10 +275,9 @@ setup:
     # it as an API-key session that loses its claude.ai connectors.
     # settings.json is kit-managed and rewritten unconditionally on every
     # (re)create, so it always reflects the current SBX_CRED_ANTHROPIC_MODE (a
-    # mode change on recreate is picked up).
-    # Content is deterministic from the mode, so the rewrite is idempotent.
-    # The bypass/trust flags live in ~/.claude.json (seeded by the root install
-    # command above).
+    # mode change on recreate is picked up). Content is deterministic from the
+    # mode, so the rewrite is idempotent. The bypass/trust flags live in
+    # ~/.claude.json (seeded by the root install command above).
     #
     # defaultMode must sit under "permissions": Claude Code reads only
     # permissions.defaultMode and silently ignores the key elsewhere.

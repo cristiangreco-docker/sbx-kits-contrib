@@ -54,6 +54,7 @@ func TestClaudeMemReconcilerAPIKeyHelper(t *testing.T) {
 	mem, err := LoadFromDirectory("../claude-mem")
 	require.NoError(t, err)
 	reconciler := findSettingsReconciler(t, mem.Commands)
+	require.Contains(t, reconciler, "/tmp/claude-mem-reconcile.log")
 
 	for _, tc := range []struct {
 		name          string
