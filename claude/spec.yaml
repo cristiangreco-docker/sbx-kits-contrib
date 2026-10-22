@@ -9,7 +9,7 @@ name: claude
 # Published as the vnd.docker.sandbox.kit.version OCI annotation at pack time,
 # and `scripts/check-release-tag.sh` refuses a `claude/vX.Y.Z` tag that
 # disagrees with it. Bump here first, then tag.
-version: "1.0.0"
+version: "1.0.1"
 displayName: Claude Code
 description: Anthropic's Claude Code, with API-key and subscription sign-in both resolved by the sandbox proxy.
 sandbox:
@@ -243,8 +243,11 @@ environment:
 setup:
   install:
     # ~/.claude.json carries the bypass/onboarding/trust flags and is
-    # credential-independent. It needs a command rather than setup.files for
-    # two reasons: the content is conditional — the `projects` map gains a
+    # credential-independent. hasSeenAutoDefaultNudge suppresses Claude Code's
+    # "Make auto mode your default permission mode?" startup dialog, which a
+    # user-settings defaultMode other than auto (bypassPermissions, below)
+    # triggers; accepting it would also replace bypassPermissions with auto.
+    # It needs a command rather than setup.files for two reasons: the content is conditional — the `projects` map gains a
     # second entry only when WORKSPACE_DIR is not "/", and the path has to be
     # JSON-escaped — which setup.files cannot express; and setup.files can
     # only create-or-skip, so an `onlyIfMissing` guard would silently leave
@@ -262,6 +265,7 @@ setup:
         printf '%s\n' "{
           \"bypassPermissionsModeAccepted\": true,
           \"hasCompletedOnboarding\": true,
+          \"hasSeenAutoDefaultNudge\": true,
           \"projects\": { $projects }
         }" > /home/agent/.claude.json
         chown agent:agent /home/agent/.claude.json
