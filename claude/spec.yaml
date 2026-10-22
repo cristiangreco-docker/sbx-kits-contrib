@@ -243,11 +243,8 @@ environment:
 setup:
   install:
     # ~/.claude.json carries the bypass/onboarding/trust flags and is
-    # credential-independent. hasSeenAutoDefaultNudge suppresses Claude Code's
-    # "Make auto mode your default permission mode?" startup dialog, which a
-    # user-settings defaultMode other than auto (bypassPermissions, below)
-    # triggers; accepting it would also replace bypassPermissions with auto.
-    # It needs a command rather than setup.files for two reasons: the content is conditional — the `projects` map gains a
+    # credential-independent. It needs a command rather than setup.files for
+    # two reasons: the content is conditional — the `projects` map gains a
     # second entry only when WORKSPACE_DIR is not "/", and the path has to be
     # JSON-escaped — which setup.files cannot express; and setup.files can
     # only create-or-skip, so an `onlyIfMissing` guard would silently leave
